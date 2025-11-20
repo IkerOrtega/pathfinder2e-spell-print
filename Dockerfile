@@ -1,20 +1,4 @@
-# Start with a base image containing Java runtime
-FROM openjdk:26-ea-23-slim
-
-# Add Maintainer Info
-LABEL maintainer="iker.ortega.g@gmail.com"
-
-# Add a volume pointing to /tmp
-VOLUME /tmp
-
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
-
-# The application's jar file
-ARG JAR_FILE=target/spring-boot-app-1.0.0.jar
-
-# Add the application's jar to the container
-ADD ${JAR_FILE} app.jar
-
-# Run the jar file
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+FROM openjdk:23-ea-1-jdk-slim
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
